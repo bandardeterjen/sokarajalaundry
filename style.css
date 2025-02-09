@@ -338,7 +338,7 @@ Media Queries
 }
 @media(min-width: 1000px){
   .site-header{
-    background: url(images/bgHead-large.png) no-repeat;
+    background: url(https://raw.githubusercontent.com/bandardeterjen/sokarajalaundry/refs/heads/images/bgHead-large.png) no-repeat;
     background-size: cover;
     min-height: 557px;
   }
@@ -351,7 +351,7 @@ Media Queries
     --xx-large:60px;
   }
   .site-header{
-    background: url(images/bgHead-medium.jpg) no-repeat;
+    background: url(https://raw.githubusercontent.com/bandardeterjen/sokarajalaundry/refs/heads/images/bgHead-medium.jpg) no-repeat;
     min-height: 500px;
   }
   .caption h1{
@@ -477,7 +477,7 @@ Media Queries
     --xx-large:60px;
   }
   .site-header{
-    background: url(images/bgHead-small.jpg) no-repeat;
+    background: url(https://raw.githubusercontent.com/bandardeterjen/sokarajalaundry/refs/heads/images//bgHead-small.jpg) no-repeat;
     min-height: 300px;
   }
   .site-footer .action .media-thumb{
