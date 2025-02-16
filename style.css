@@ -77,6 +77,11 @@ Site Header
   flex-direction: column;
   justify-content: center;
 }
+.site-header2{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .navbar{
   transition: background-color 1000ms;
   padding-top:30px;
