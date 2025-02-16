@@ -489,3 +489,7 @@ Media Queries
     margin-top:0;
   }
 }
+.responsive {
+  width: 100%;
+  height: auto;
+}
