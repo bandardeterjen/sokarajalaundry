@@ -510,7 +510,8 @@
     });
     </script>
     <script type="text/javascript" src="https://bandardeterjen.github.io/banyumas/kamus-jawabanyumasan.js"></script>
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+ <!-- WAF -->
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
@@ -538,20 +539,20 @@
     <form id="blogger-form-wa" class="p-4 space-y-3 text-sm text-gray-700">
       <div>
         <label class="block font-medium mb-1">Nama Lengkap</label>
-        <input type="text" id="blg-nama" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none" />
+        <input type="text" id="blg-nama" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
       </div>
       <div>
         <label class="block font-medium mb-1">Nomor WhatsApp</label>
-        <input type="tel" id="blg-wa" placeholder="Contoh: 0812345..." required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none" />
+        <input type="tel" id="blg-wa" placeholder="Contoh: 08123..." required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
       </div>
       <div>
         <label class="block font-medium mb-1">Alamat Email</label>
-        <input type="email" id="blg-email" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none" />
+        <input type="email" id="blg-email" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
       </div>
       <div>
         <label class="block font-medium mb-1">Lokasi</label>
         <select id="blg-lokasi" required class="w-full px-3 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-green-500 outline-none">
-          <option value="" />-- Pilih Lokasi --
+          <option value="">-- Pilih Lokasi --</option>
         </select>
       </div>
       <div>
@@ -582,51 +583,85 @@
     </div>
     <form id="blg-form-login" class="p-5 space-y-4 text-sm">
       <div>
-        <label class="block text-gray-600 font-medium mb-1">Username</label>
-        <input type="text" id="adm-user" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-gray-800 outline-none" />
+        <label class="block text-gray-600 font-medium mb-1">Username / Email</label>
+        <input type="text" id="adm-user" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-gray-800 outline-none">
       </div>
       <div>
         <label class="block text-gray-600 font-medium mb-1">Password</label>
-        <input type="password" id="adm-pass" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-gray-800 outline-none" />
+        <input type="password" id="adm-pass" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-gray-800 outline-none">
       </div>
-      <button type="submit" id="adm-btn-login" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-bold py-2.5 rounded-lg transition shadow">Masuk ke Dashboard</button>
+      <button type="submit" id="adm-btn-login" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-bold py-2.5 rounded-lg transition shadow">Masuk</button>
     </form>
   </div>
 </div>
 
-<div id="blg-dashboard" class="fixed inset-0 bg-slate-50 z-[99999999] hidden flex flex-col h-full w-full font-sans">
-  <header class="bg-white border-b px-6 py-4 flex justify-between items-center shadow-sm shrink-0">
-    <div class="flex items-center gap-3">
-      <div class="bg-blue-600 text-white p-2 rounded-lg"><i class="fas fa-chart-pie text-xl"></i></div>
-      <div>
-        <h2 class="text-base font-bold text-slate-800">Dashboard Pengaturan & Data</h2>
-        <p class="text-xs text-slate-500">Otoritas Akses: <span id="adm-role" class="font-semibold text-blue-600">-</span></p>
-      </div>
+<div id="blg-dashboard" class="fixed inset-0 bg-slate-100 z-[99999999] hidden flex flex-col md:flex-row h-full w-full font-sans text-sm">
+  <aside class="w-full md:w-64 bg-slate-900 text-slate-300 flex flex-col shrink-0">
+    <div class="p-5 bg-slate-950 flex items-center justify-between">
+      <span class="font-bold text-white flex items-center gap-2"><i class="fas fa-shield-halved text-emerald-400"></i> Central Admin</span>
+      <button onclick="logoutDashboard()" class="md:hidden text-white"><i class="fas fa-times"></i></button>
     </div>
-    <button onclick="logoutDashboard()" class="bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-lg font-bold text-xs transition flex items-center gap-2">
-      <i class="fas fa-sign-out-alt"></i> Keluar / Logout
-    </button>
-  </header>
+    <nav class="flex-1 p-3 space-y-1">
+      <button onclick="switchTab('pesan')" id="menu-pesan" class="w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 font-semibold transition bg-slate-800 text-white"><i class="fas fa-envelope-open-text"></i> Data Pesan Masuk</button>
+      <button onclick="switchTab('kontak')" id="menu-kontak" class="w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 font-semibold transition hover:bg-slate-800"><i class="fas fa-map-marked-alt"></i> Admin Wilayah (CRUD)</button>
+      <button onclick="switchTab('user')" id="menu-user" class="w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 font-semibold transition hover:bg-slate-800"><i class="fas fa-users-cog"></i> Manajemen User</button>
+    </nav>
+    <div class="p-4 bg-slate-950 border-t border-slate-800 text-xs flex justify-between items-center">
+      <div>Role: <span id="adm-role" class="text-emerald-400 font-bold">-</span></div>
+      <button onclick="logoutDashboard()" class="text-red-400 hover:text-red-300 font-bold flex items-center gap-1"><i class="fas fa-sign-out-alt"></i> Keluar</button>
+    </div>
+  </aside>
 
-  <main class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scroll">
-    <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
-      <div class="bg-slate-100 px-4 py-3 border-b font-bold text-slate-700 text-sm flex items-center gap-2"><i class="fas fa-envelope-open-text text-green-600"></i> Data Pesan Masuk (Tab 1)</div>
-      <div class="overflow-x-auto custom-scroll">
-        <table class="w-full text-left border-collapse text-xs md:text-sm text-slate-600" id="dash-table-pesan"></table>
-      </div>
-    </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
-        <div class="bg-slate-100 px-4 py-3 border-b font-bold text-slate-700 text-sm flex items-center gap-2"><i class="fas fa-address-book text-blue-600"></i> Kontak Admin Wilayah (Tab 2)</div>
+  <main class="flex-1 flex flex-col overflow-hidden">
+    <header class="bg-white border-b px-6 py-4 flex justify-between items-center shadow-sm">
+      <h2 id="dashboard-title" class="text-base font-bold text-slate-800">Data Pesan Masuk</h2>
+    </header>
+
+    <div class="flex-1 overflow-y-auto p-4 md:p-6 custom-scroll">
+      <div id="tab-content-pesan" class="bg-white rounded-xl shadow-sm border overflow-hidden dashboard-tab">
         <div class="overflow-x-auto custom-scroll">
-          <table class="w-full text-left border-collapse text-xs text-slate-600" id="dash-table-kontak"></table>
+          <table class="w-full text-left border-collapse text-xs md:text-sm text-slate-600" id="dash-table-pesan"></table>
+        </div>
+        <div class="bg-slate-50 p-4 border-t flex justify-between items-center text-xs">
+          <span class="text-slate-500" id="page-info">Menampilkan halaman 1</span>
+          <div class="flex items-center gap-1" id="pagination-buttons"></div>
         </div>
       </div>
-      <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
-        <div class="bg-slate-100 px-4 py-3 border-b font-bold text-slate-700 text-sm flex items-center gap-2"><i class="fas fa-users text-purple-600"></i> Akun Pengguna / User (Tab 3)</div>
+
+      <div id="tab-content-kontak" class="hidden space-y-4 dashboard-tab">
+        <div class="bg-white p-4 rounded-xl border shadow-sm flex flex-wrap gap-2 items-end">
+          <input type="hidden" id="crud-id">
+          <div class="w-full sm:w-auto flex-1">
+            <label class="block text-xs font-bold mb-1">Nama Lokasi</label>
+            <input type="text" id="crud-lokasi" placeholder="Misal: Sunter" class="w-full px-3 py-1.5 border rounded-lg text-xs outline-none">
+          </div>
+          <div class="w-full sm:w-auto flex-1">
+            <label class="block text-xs font-bold mb-1">WA Admin (Format: 628...)</label>
+            <input type="text" id="crud-wa" placeholder="62888..." class="w-full px-3 py-1.5 border rounded-lg text-xs outline-none">
+          </div>
+          <div class="w-20">
+            <label class="block text-xs font-bold mb-1">Urutan</label>
+            <input type="number" id="crud-urutan" value="1" min="1" class="w-full px-3 py-1.5 border rounded-lg text-xs outline-none">
+          </div>
+          <div class="w-full sm:w-auto flex-1">
+            <label class="block text-xs font-bold mb-1">Target Web URL (Pisah Koma jika > 1, Kosongkan=Semua)</label>
+            <input type="text" id="crud-urls" placeholder="bandarlaundry.com, github.io" class="w-full px-3 py-1.5 border rounded-lg text-xs outline-none">
+          </div>
+          <div class="flex gap-1 w-full sm:w-auto mt-2 sm:mt-0">
+            <button onclick="saveCrudKontak()" id="btn-save-crud" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-1.5 rounded-lg text-xs shadow">Simpan</button>
+            <button onclick="resetCrudForm()" class="bg-slate-300 hover:bg-slate-400 text-slate-700 px-3 py-1.5 rounded-lg text-xs">Reset</button>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+          <div class="overflow-x-auto custom-scroll">
+            <table class="w-full text-left border-collapse text-xs text-slate-600" id="dash-table-kontak"></table>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-content-user" class="bg-white rounded-xl shadow-sm border overflow-hidden hidden dashboard-tab">
         <div class="overflow-x-auto custom-scroll">
-          <table class="w-full text-left border-collapse text-xs text-slate-600" id="dash-table-user"></table>
+          <table class="w-full text-left border-collapse text-xs md:text-sm text-slate-600" id="dash-table-user"></table>
         </div>
       </div>
     </div>
@@ -636,8 +671,12 @@
 <div id="blg-toast" style="position:fixed; top:20px; right:20px; z-index:999999999; padding:12px 24px; color:#fff; border-radius:8px; display:none; font-weight:bold;" class="shadow-lg text-sm"></div>
 
 <script>
-  // GANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
-  const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwhOOMPTnn71dxd3sla25te7QS4qZKs98powSQL_2bh7ce7jyNAA9Z56DJP5H9wmMJZ/exec";
+  // PENTING: ISI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
+  const GAS_API_URL = "https://script.google.com/macros/s/AKfycbwVNKrV367Fz6XQdLYrQWiuzOYvfYdWO9_Lb6hLUZq_7wdYy7P-o4nkG0shQIKKFHhU/exec";
+
+  let masterCacheData = null;
+  let currentPagePesan = 1;
+  const dataPerHalaman = 10;
 
   function toggleWaWidget() {
     const panel = document.getElementById('wa-panel');
@@ -652,15 +691,17 @@
     setTimeout(() => { toast.style.display = 'none'; }, 4000);
   }
 
-  // Ambil Data Lokasi Dropdown Secara Dinamis dari Sheet
+  // Load Dropdown List Lokasi berdasarkan Parameter URL Halaman Aktif saat ini
   document.addEventListener("DOMContentLoaded", function() {
+    const currentDomain = window.location.href;
     const script = document.createElement('script');
-    script.src = `${GAS_API_URL}?callback=handleLokasi`;
+    script.src = `${GAS_API_URL}?url=${encodeURIComponent(currentDomain)}&callback=handleLokasi`;
     document.body.appendChild(script);
   });
 
   function handleLokasi(listLokasi) {
     const dropdown = document.getElementById('blg-lokasi');
+    dropdown.innerHTML = '<option value="">-- Pilih Lokasi --</option>';
     listLokasi.forEach(item => {
       const option = document.createElement('option');
       option.value = item;
@@ -669,7 +710,7 @@
     });
   }
 
-  // PROSES SUBMIT FORM PESAN & REDIRECT KE WA DENGAN TEMPLATE KAKAK
+  // KIRIM PESAN PELANGGAN KE SPREADSHEET
   document.getElementById('blogger-form-wa').addEventListener('submit', function(e) {
     e.preventDefault();
     const btn = document.getElementById('blg-btn-kirim');
@@ -682,22 +723,15 @@
       email: document.getElementById('blg-email').value,
       lokasi: document.getElementById('blg-lokasi').value,
       alamat: document.getElementById('blg-alamat').value,
-      asalHalaman: document.title || "Halaman Utama Blog" // OTOMATIS AMBIL TITLE SAJA
+      asalUrl: window.location.origin + window.location.pathname, // AMBIL ASAL URL
+      asalHalaman: document.title || "Halaman Utama Blog" // AMBIL TITLE
     };
 
-    // Routing Penentuan Nomor Target Admin secara Instant Sisi Client (+62)
-    let waTarget = "";
-    if (payload.lokasi.toLowerCase() === "sunter") {
-      waTarget = "6285771419529";
-    } else {
-      waTarget = "6285773009666"; // Default Cileungsi
-    }
-
-    // Pembuatan Template Text Sesuai Instruksi
+    // Cari instan nomor WA Admin lokal untuk Sunter, selain itu ke Cileungsi
+    let waTarget = (payload.lokasi.toLowerCase() === "sunter") ? "6288808181008" : "6285773009666";
     const teksWA = `Halo kak, saya mau laundry\n\nNama: ${payload.nama}\nLokasi: ${payload.lokasi}\nAlamat: ${payload.alamat}`;
     const urlWA = `https://api.whatsapp.com/send?phone=${waTarget}&text=${encodeURIComponent(teksWA)}`;
 
-    // Mengirim ke basis data Spreadsheet (Latar Belakang / Background Method)
     const searchParams = new URLSearchParams(payload);
     fetch(GAS_API_URL, {
       method: "POST",
@@ -706,9 +740,7 @@
       body: searchParams.toString()
     });
 
-    // Jalankan Notifikasi Dan Buka Whatsapp Instan Bebas Data Kosong
     showBlgToast("Pesan tersimpan! Mengalihkan ke WhatsApp...");
-    
     setTimeout(() => {
       window.open(urlWA, '_blank');
       document.getElementById('blogger-form-wa').reset();
@@ -718,70 +750,66 @@
     }, 800);
   });
 
-  // SISTEM KONTROL LOGIN ADMIN & RENDERING DASHBOARD
+  // NAVIGASI SWITCH TAB MENU
+  function switchTab(tabName) {
+    document.querySelectorAll('.dashboard-tab').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('nav button').forEach(el => el.className = "w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 font-semibold transition hover:bg-slate-800");
+    
+    document.getElementById(`tab-content-${tabName}`).classList.remove('hidden');
+    document.getElementById(`menu-${tabName}`).className = "w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 font-semibold transition bg-slate-800 text-white";
+    
+    const titles = { pesan: "Data Pesan Masuk (Tab 1)", kontak: "Manajemen Konten Wilayah Admin (Tab 2)", user: "Manajemen Otoritas User (Tab 3)" };
+    document.getElementById('dashboard-title').innerText = titles[tabName];
+  }
+
+  // LOGIN & AUTHENTICATION DI SISI ADMIN
   function bukaModalLogin() { document.getElementById('blg-modal-login').classList.remove('hidden'); }
   function tutupModalLogin() { document.getElementById('blg-modal-login').classList.add('hidden'); }
 
   document.getElementById('blg-form-login').addEventListener('submit', function(e) {
     e.preventDefault();
-    const btn = document.getElementById('adm-btn-login');
-    btn.disabled = true;
-    btn.innerText = "Membuka Enkripsi...";
-
-    const loginData = {
+    const params = new URLSearchParams({
       action: "login",
       username: document.getElementById('adm-user').value,
       password: document.getElementById('adm-pass').value
-    };
+    });
 
-    const params = new URLSearchParams(loginData);
-
-    fetch(GAS_API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: params.toString()
-    })
-    .then(response => response.json())
+    fetch(GAS_API_URL, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: params.toString() })
+    .then(r => r.json())
     .then(res => {
-      btn.disabled = false;
-      btn.innerText = "Masuk ke Dashboard";
       if (res.success) {
-        showBlgToast("Login Berhasil!");
+        showBlgToast("Akses Diterima!");
         document.getElementById('adm-role').innerText = res.role;
         tutupModalLogin();
         muatDataDashboard();
       } else {
         showBlgToast(res.message, false);
       }
-    })
-    .catch(() => {
-      showBlgToast("Kesalahan sistem login.", false);
-      btn.disabled = false;
-    });
+    }).catch(() => showBlgToast("Kesalahan sistem otentikasi.", false));
   });
 
+  // SYNC AMBIL DATA DASHBOARD DARI SPREADSHEET
   function muatDataDashboard() {
     const params = new URLSearchParams({ action: "getDashboard" });
-    fetch(GAS_API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: params.toString()
-    })
+    fetch(GAS_API_URL, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: params.toString() })
     .then(res => res.json())
     .then(data => {
-      bikinTabel('dash-table-pesan', data.pesan);
-      bikinTabel('dash-table-kontak', data.kontak);
-      bikinTabel('dash-table-user', data.user);
+      masterCacheData = data;
+      renderTablePesan();
+      renderTableKontak(data.kontak);
+      renderTableUser(data.user);
       document.getElementById('blg-dashboard').classList.remove('hidden');
-    })
-    .catch(() => showBlgToast("Gagal menyinkronkan data table.", false));
+    });
   }
 
-  function bikinTabel(tableId, rawData) {
-    const table = document.getElementById(tableId);
+  // RENDER TAB PESAN + LOGIKA PAGINATION (MAX 3 PAGE, 10 DATA/PAGE)
+  function renderTablePesan() {
+    const table = document.getElementById('dash-table-pesan');
     table.innerHTML = "";
-    if (!rawData || rawData.length === 0) return;
+    const rawData = masterCacheData.pesan;
+    if (!rawData || rawData.length <= 1) return;
 
+    // Header Setup
     const thead = table.createTHead();
     const rHead = thead.insertRow();
     rHead.className = "bg-slate-200 border-b text-slate-800 font-bold text-xs";
@@ -792,24 +820,161 @@
       rHead.appendChild(th);
     });
 
+    // Body Setup dengan Slicing Pagination
     const tbody = table.createTBody();
-    for (let i = 1; i < rawData.length; i++) {
-      if(!rawData[i].join("").trim()) continue; 
+    const dataRows = rawData.slice(1).filter(row => row.join("").trim() !== "");
+    const totalData = dataRows.length;
+    
+    // Batasi kalkulasi maksimal halaman sampai 3 halaman saja
+    const totalPages = Math.min(3, Math.ceil(totalData / dataPerHalaman));
+    if(currentPagePesan > totalPages) currentPagePesan = 1;
+
+    const startIndex = (currentPagePesan - 1) * dataPerHalaman;
+    const endIndex = Math.min(startIndex + dataPerHalaman, totalData);
+    const paginatedData = dataRows.slice(startIndex, endIndex);
+
+    paginatedData.forEach(rowData => {
       const row = tbody.insertRow();
-      row.className = "border-b hover:bg-slate-50 transition text-slate-700";
-      rawData[i].forEach(cell => {
+      row.className = "border-b hover:bg-slate-50 text-slate-700 transition";
+      rowData.forEach(cell => {
         const td = row.insertCell();
-        td.className = "px-3 py-2 max-w-[200px] truncate whitespace-nowrap";
+        td.className = "px-3 py-2 max-w-[180px] truncate whitespace-nowrap";
         td.innerText = cell;
         td.title = cell;
       });
+    });
+
+    // Render Tombol Kontrol Halaman
+    document.getElementById('page-info').innerText = `Menampilkan ${startIndex + 1}-${endIndex} dari total ${totalData} baris pesan masuk`;
+    const btnContainer = document.getElementById('pagination-buttons');
+    btnContainer.innerHTML = "";
+    
+    for (let p = 1; p <= totalPages; p++) {
+      const btn = document.createElement('button');
+      btn.innerText = p;
+      btn.className = `px-2.5 py-1 rounded font-bold transition ${currentPagePesan === p ? 'bg-slate-800 text-white' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`;
+      btn.onclick = () => { currentPagePesan = p; renderTablePesan(); };
+      btnContainer.appendChild(btn);
     }
+  }
+
+  // RENDER TAB USER (HANYA ALAMAT EMAIL / USERNAME SAJA & ROLE)
+  function renderTableUser(rawData) {
+    const table = document.getElementById('dash-table-user');
+    table.innerHTML = "";
+    if(!rawData || rawData.length === 0) return;
+
+    const thead = table.createTHead();
+    const rHead = thead.insertRow();
+    rHead.className = "bg-slate-200 border-b text-slate-800 font-bold text-xs";
+    
+    // Buat kustom header mengabaikan password
+    const th1 = document.createElement('th'); th1.className="px-3 py-3"; th1.innerText = "Username / Email"; rHead.appendChild(th1);
+    const th2 = document.createElement('th'); th2.className="px-3 py-3"; th2.innerText = "Role Tingkat Akses"; rHead.appendChild(th2);
+
+    const tbody = table.createTBody();
+    for (let i = 1; i < rawData.length; i++) {
+      if(!rawData[i].join("").trim()) continue;
+      const row = tbody.insertRow();
+      row.className = "border-b hover:bg-slate-50 transition";
+      
+      const tdUser = row.insertCell(); tdUser.className = "px-3 py-2 font-semibold"; tdUser.innerText = rawData[i][0];
+      const tdRole = row.insertCell(); tdRole.className = "px-3 py-2 text-blue-600"; tdRole.innerText = rawData[i][2]; // lompat indeks 1 (password)
+    }
+  }
+
+  // RENDER TAB ADMIN WILAYAH (LENGKAP DENGAN ACTION EDIT & DELETE)
+  function renderTableKontak(rawData) {
+    const table = document.getElementById('dash-table-kontak');
+    table.innerHTML = "";
+    if(!rawData || rawData.length === 0) return;
+
+    const thead = table.createTHead();
+    const rHead = thead.insertRow();
+    rHead.className = "bg-slate-200 border-b text-slate-800 font-bold text-xs";
+    
+    rawData[0].forEach(col => {
+      const th = document.createElement('th'); th.className="px-3 py-3 whitespace-nowrap"; th.innerText = col; rHead.appendChild(th);
+    });
+    const thAction = document.createElement('th'); thAction.className="px-3 py-3 text-center"; thAction.innerText = "Tindakan"; rHead.appendChild(thAction);
+
+    const tbody = table.createTBody();
+    for (let i = 1; i < rawData.length; i++) {
+      if(!rawData[i].join("").trim()) continue;
+      const row = tbody.insertRow();
+      row.className = "border-b hover:bg-slate-50 transition";
+      
+      rawData[i].forEach(cell => {
+        const td = row.insertCell(); td.className = "px-3 py-2 whitespace-nowrap"; td.innerText = cell;
+      });
+
+      // Kolom Aksi Kontrol CRUD
+      const tdAct = row.insertCell();
+      tdAct.className = "px-3 py-2 text-center space-x-1 whitespace-nowrap";
+      tdAct.innerHTML = `
+        <button onclick="editKontakField(${i}, '${rawData[i][0]}', '${rawData[i][1]}', '${rawData[i][2] || 1}', '${rawData[i][3] || ''}')" class="bg-amber-500 text-white font-bold px-2 py-0.5 rounded text-[10px] hover:bg-amber-600">Edit</button>
+        <button onclick="deleteKontakField(${i})" class="bg-rose-500 text-white font-bold px-2 py-0.5 rounded text-[10px] hover:bg-rose-600">Hapus</button>
+      `;
+    }
+  }
+
+  // SISTEM PROSES CRUD ACTIONS
+  function editKontakField(index, lokasi, wa, urutan, urls) {
+    document.getElementById('crud-id').value = index;
+    document.getElementById('crud-lokasi').value = lokasi;
+    document.getElementById('crud-wa').value = wa;
+    document.getElementById('crud-urutan').value = urutan;
+    document.getElementById('crud-urls').value = urls === 'undefined' ? '' : urls;
+    document.getElementById('btn-save-crud').innerText = "Update";
+  }
+
+  function deleteKontakField(index) {
+    if(!confirm("Hapus data admin wilayah ini?")) return;
+    executeCrudRequest({ action: "crudKontak", subAction: "delete", index: index });
+  }
+
+  function saveCrudKontak() {
+    const idx = document.getElementById('crud-id').value;
+    const payload = {
+      action: "crudKontak",
+      subAction: idx ? "update" : "create",
+      index: idx,
+      lokasi: document.getElementById('crud-lokasi').value,
+      wa: document.getElementById('crud-wa').value,
+      urutan: document.getElementById('crud-urutan').value,
+      urls: document.getElementById('crud-urls').value
+    };
+
+    if(!payload.lokasi || !payload.wa) { alert("Nama lokasi dan Nomor WA wajib diisi!"); return; }
+    executeCrudRequest(payload);
+  }
+
+  function executeCrudRequest(payload) {
+    const params = new URLSearchParams(payload);
+    fetch(GAS_API_URL, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: params.toString() })
+    .then(r => r.json())
+    .then(res => {
+      if(res.success) {
+        showBlgToast(res.message);
+        resetCrudForm();
+        muatDataDashboard(); // Reload data update terbaru
+      }
+    });
+  }
+
+  function resetCrudForm() {
+    document.getElementById('crud-id').value = "";
+    document.getElementById('crud-lokasi').value = "";
+    document.getElementById('crud-wa').value = "";
+    document.getElementById('crud-urutan').value = "1";
+    document.getElementById('crud-urls').value = "";
+    document.getElementById('btn-save-crud').innerText = "Simpan";
   }
 
   function logoutDashboard() {
     document.getElementById('blg-dashboard').classList.add('hidden');
     document.getElementById('blg-form-login').reset();
-    showBlgToast("Sesi admin berakhir.");
+    showBlgToast("Logout berhasil.");
   }
 </script>
   </body>
