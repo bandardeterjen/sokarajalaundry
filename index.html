@@ -511,7 +511,7 @@
     </script>
     <script type="text/javascript" src="https://bandardeterjen.github.io/banyumas/kamus-jawabanyumasan.js"></script>
  <!-- WAF -->
-	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
@@ -552,7 +552,7 @@
       <div>
         <label class="block font-medium mb-1">Lokasi</label>
         <select id="blg-lokasi" required class="w-full px-3 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-green-500 outline-none">
-          <option value="">-- Pilih Lokasi --</option>
+          <option value="">Memuat Lokasi...</option>
         </select>
       </div>
       <div>
@@ -661,8 +661,8 @@
 <div id="blg-toast" style="position:fixed; top:20px; right:20px; z-index:999999999; padding:12px 24px; color:#fff; border-radius:8px; display:none; font-weight:bold;" class="shadow-lg text-sm"></div>
 
 <script>
-  // GANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
-  const GAS_API_URL = "https://script.google.com/macros/s/AKfycbz4z-oU8NCju8MmzvT43WY7HLNzSz_8NyvUb5s9K53joAbNnua49B5Zl9ehFhDMmiYJ/exec";
+  // PENTING: SEGERA GANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
+  const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzgiNPxcfJvTSLSDAHYlqCQsfbO73JCHZ9y_TFtpJVRg-9UAyvYKQ7NPDzqRhCYzmwy/exec";
 
   let masterCacheData = null;
   let currentPagePesan = 1;
@@ -681,24 +681,30 @@
     setTimeout(() => { toast.style.display = 'none'; }, 4000);
   }
 
-  // Load Dropdown Lokasi (Bebas Bug Parameter Mobile m=1)
+  // Solusi Baru Pengambilan Dropdown Menggunakan Standard Fetch API (100% Lolos Sensor Mobile Browser)
   document.addEventListener("DOMContentLoaded", function() {
-    let currentDomain = window.location.href; 
-    const script = document.createElement('script');
-    script.src = `${GAS_API_URL}?url=${encodeURIComponent(currentDomain)}&callback=handleLokasi`;
-    document.body.appendChild(script);
+    let currentDomain = window.location.href;
+    
+    fetch(`${GAS_API_URL}?url=${encodeURIComponent(currentDomain)}`)
+      .then(response => response.json())
+      .then(listLokasi => {
+        const dropdown = document.getElementById('blg-lokasi');
+        dropdown.innerHTML = '<option value="">-- Pilih Lokasi --</option>';
+        if (listLokasi.length === 0) {
+          dropdown.innerHTML = '<option value="">Tidak ada lokasi tersedia</option>';
+          return;
+        }
+        listLokasi.forEach(item => {
+          const option = document.createElement('option');
+          option.value = item;
+          option.text = item;
+          dropdown.appendChild(option);
+        });
+      })
+      .catch(err => {
+        document.getElementById('blg-lokasi').innerHTML = '<option value="">Gagal memuat lokasi</option>';
+      });
   });
-
-  function handleLokasi(listLokasi) {
-    const dropdown = document.getElementById('blg-lokasi');
-    dropdown.innerHTML = '<option value="">-- Pilih Lokasi --</option>';
-    listLokasi.forEach(item => {
-      const option = document.createElement('option');
-      option.value = item;
-      option.text = item;
-      dropdown.appendChild(option);
-    });
-  }
 
   // FORM KIRIM PESAN USER
   document.getElementById('blogger-form-wa').addEventListener('submit', function(e) {
@@ -734,7 +740,6 @@
     }, 800);
   });
 
-  // MENAVIGASI MENU TAB SAMA RATA
   function switchTab(tabName) {
     document.querySelectorAll('.dashboard-tab').forEach(el => el.classList.add('hidden'));
     document.querySelectorAll('nav button').forEach(el => el.className = "flex-1 text-center py-3 font-semibold border-b-2 border-transparent text-slate-400 hover:text-white");
@@ -743,7 +748,6 @@
     document.getElementById(`menu-${tabName}`).className = "flex-1 text-center py-3 font-semibold border-b-2 border-emerald-500 bg-slate-800 text-white";
   }
 
-  // LOGIN DASHBOARD
   function bukaModalLogin() { document.getElementById('blg-modal-login').classList.remove('hidden'); }
   function tutupModalLogin() { document.getElementById('blg-modal-login').classList.add('hidden'); }
 
@@ -781,7 +785,6 @@
     });
   }
 
-  // RENDER PESAN MENJADI KARTU VERTIKAL KE BAWAH
   function renderCardsPesan() {
     const container = document.getElementById('dash-cards-pesan');
     container.innerHTML = "";
@@ -835,7 +838,6 @@
     }
   }
 
-  // RENDER USER (HANYA USERNAME / EMAIL)
   function renderTableUser(rawData) {
     const table = document.getElementById('dash-table-user');
     table.innerHTML = "";
@@ -856,7 +858,6 @@
     }
   }
 
-  // RENDER ADMIN KONTAK WILAYAH
   function renderTableKontak(rawData) {
     const table = document.getElementById('dash-table-kontak');
     table.innerHTML = "";
